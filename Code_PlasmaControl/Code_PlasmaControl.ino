@@ -124,16 +124,6 @@ void sethigh(){
   delay(100);
 }
 
-void motorControl(){
-  int sensorValue = analogRead(A0);
-  float voltage = sensorValue * (5.0 / 1023.0);
-  if(voltage>voltset+0.2){
-    upmotor();
-  }
-  if(voltage<voltset-0.2){
-    downmotor();
-  }
-}
 
 void manualMotor(){
   if(statusUp == HIGH && statusDown == LOW){
