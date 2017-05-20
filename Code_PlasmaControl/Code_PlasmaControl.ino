@@ -32,6 +32,7 @@ int hh=1; //set head high
 int fin = 0;
 int reset=0;
 int startn1 = 0;
+int tempdown = 0;
 
 
 
@@ -69,13 +70,15 @@ void loop() {
   }
   else if(statusUp == HIGH && statusDown == LOW){
     manualMotor();
+    tempdown=0;
   }
   else if(statusDown == HIGH && statusUp == LOW){
     manualMotor();
+    tempdown=0;
   }
 
   else if(startn1 == 1){
-    if(vin<=2){
+    if(vin==0){
         readycut();
         startn1 = 0;
     }
@@ -86,11 +89,11 @@ void loop() {
   
   else if(statusState == HIGH){
     digitalWrite(10,HIGH);
-    if(vin<=2){
+    if(vin==0){
         readycut();
-        startn1 = 0;
+        tempdown=1;
     }
-    else{
+    if(tempdown==0){
       downfin();
     }
   }
@@ -105,7 +108,7 @@ void loop() {
 
 
 void readycut(){
-  for(int i;i<=voltset*1000.0;i++){
+  for(int i=0;i<=3000;i++){
     upmotor();
   }
 }
