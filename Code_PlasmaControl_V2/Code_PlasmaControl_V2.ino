@@ -49,6 +49,7 @@ void setup() {
 }
 
 void loop() {
+  
   mode = digitalRead(modepin);
   left = digitalRead(leftpin);
   right = digitalRead(rightpin);
@@ -67,9 +68,9 @@ void loop() {
     if(templcd == 0){
       lcd.clear();
       lcd.setCursor(0, 0);
-      lcd.print("Ready ? ");
-      lcd.setCursor(8, 0);
-      lcd.print(h);
+      lcd.print("Are you Ready ? ");
+      //lcd.setCursor(8, 0);
+      //lcd.print(vin);
       lcd.setCursor(0, 1);
       lcd.print("Status : OFF");
       templcd = 1;
@@ -125,9 +126,9 @@ void loop() {
 }
 
 void downcut(){
-  int sensorValue = analogRead(A1);
+  int sensorValue = analogRead(A0);
   float vin = sensorValue;
-  if(vin <= 3.0){
+  if(vin <= 4.0){
         upset();
         lcd.setCursor(0, 1);
         lcd.print("Status : Ready");
