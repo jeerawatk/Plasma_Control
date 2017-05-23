@@ -29,6 +29,7 @@ int enter = 0;
 int statusRelayTop;
 int statusRelayDown;
 int cuting;
+int cuttemp = 0;
 
 float h = 0.0;
 
@@ -84,17 +85,26 @@ void loop() {
       downcut();
     }
     else if(cuting == HIGH){
+      if(cuttemp == 0){
+        digitalWrite(10,HIGH);
+        downcuting();
+    }
+    /*
+    else if(cuttemp == 1){
       if(lcdcut == 0){
         lcd.setCursor(0, 1);
         lcd.print("Status : ON   ");
+        lcdcut = 1;
+        //digitalWrite(10,HIGH);
       }
-      digitalWrite(10,HIGH);
       downcut();
+      */
     }
-    else{
+    else if(cuting == LOW){
       digitalWrite(10,LOW);
       lcd.setCursor(0, 1);
       lcd.print("Status : OFF  ");
+      cuttemp = 0;
     }
   }
 
@@ -133,15 +143,43 @@ void downcut(){
         lcd.setCursor(0, 1);
         lcd.print("Status : Ready");
         tempenter = 0;
+        cuttemp = 1;
       } 
   else{
         downmotor();
+        
         if(statusRelayDown == HIGH){     
           for(int i;i<=2000;i++){
             upmotor();
             }
             tempenter = 0;
+            cuttemp = 1;
         }
+        
+      }
+}
+void downcuting(){
+  int sensorValue = analogRead(A0);
+  float vin = sensorValue;
+  if(vin <= 4.0){
+        delay(3000);
+        upset();
+        lcd.setCursor(0, 1);
+        lcd.print("Status : Ready");
+        tempenter = 0;
+        cuttemp = 1;
+      } 
+  else{
+        downmotor();
+        
+        if(statusRelayDown == HIGH){     
+          for(int i;i<=2000;i++){
+            upmotor();
+            }
+            tempenter = 0;
+            cuttemp = 1;
+        }
+        
       }
 }
 
@@ -175,20 +213,24 @@ void sethigh(){
 void manualMotor(){
   if(left == HIGH && right == LOW){
     upmotor();
+    
     if(statusRelayTop == HIGH){
       for(int i;i<=2000;i++){
         downmotor();
         }
     }
+    
    }
    
    else if(right == HIGH && left == LOW){
     downmotor();
+    /*
     if(statusRelayDown == HIGH){     
       for(int i;i<=2000;i++){
         upmotor();
         }
     }
+    */
    }
 }
 
