@@ -161,7 +161,7 @@ void downcut(){
 void downcuting(){
   int sensorValue = analogRead(A0);
   float vin = sensorValue;
-  if(vin <= 4.0){
+  if(vin <= 3.0){
         delay(3000);
         upset();
         lcd.setCursor(0, 1);
@@ -224,13 +224,12 @@ void manualMotor(){
    
    else if(right == HIGH && left == LOW){
     downmotor();
-    /*
+    
     if(statusRelayDown == HIGH){     
       for(int i;i<=2000;i++){
         upmotor();
         }
     }
-    */
    }
 }
 
